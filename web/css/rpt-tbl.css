@@ -1,0 +1,42 @@
+.rpt-tbl {
+	font-family: Arial;
+	font-size: 10px;
+	table-layout: fixed;
+}
+
+.rpt-tbl td {
+	background: #def;
+	padding: 3px 5px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+/* header line */
+.rpt-tbl tr.hdr td {
+	font-weight: bold;
+	font-weight: 600;
+	/*background: #39b;*/
+    background: #7DAEDF;
+}
+
+.rpt-tbl tr.hdr td.fail {
+	/*background: #c30;*/
+    color: #c40;
+}
+
+
+/* hover row */
+/*.rpt-tbl tr.hover td {*/
+	/*background: #fbf;*/
+/*}*/
+
+/* select row */
+.rpt-tbl tr.sel td {
+	background: orange;
+}
+
+.rpt-tbl td.fail {
+	color: #CC3300;
+	/*background: #fff2f2;*/
+}

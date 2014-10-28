@@ -1,0 +1,671 @@
+
+<div id="nav_bar">
+    #if($logged)
+    <div class="utilities">
+
+        #if($dashboard.type2 == 0 and ($owner or $admin))
+            <div class="utility user">
+                <div class="icon"></div>
+            </div>
+        #end
+
+
+        <div class="utility add">
+            <div class="icon"></div>
+        </div>
+
+
+
+        #if($admin or $owner)
+            <div class="utility app">
+                <div class="icon"></div>
+                <div class="dropdown-menu">
+                    <div class="des">Add a Widget</div>
+                    <div class="left-col">
+                        <a href="javascript:void(0)" idx="a">
+                            Normal Widget
+                        </a>
+                        <a href="javascript:void(0)" idx="b">
+                            Trend Widget
+                        </a>
+                        <a href="javascript:void(0)" idx="c">
+                            Differ Widget
+                        </a>
+                        <a href="javascript:void(0)" idx="d">
+                            Normal Widget with Package
+                        </a>
+                        <a href="javascript:void(0)" idx="e">
+                            Differ Widget with Package
+                        </a>
+                    </div>
+
+                    <div class="right-col">
+                        <ul>
+                            <li idx="a">
+                                <img height="150" src="${base}/images/thumb-latest.png" alt=""/>
+                                <br/>
+                                <a href="javascript:void(0)" val="product">+ Click to Add!</a>
+                            </li>
+                            <li idx="b">
+                                <img height="150" src="${base}/images/thumb-trend.png" alt=""/>
+                                <br/>
+                                <a href="javascript:void(0)" val="product_trends">+ Click to Add!</a>
+                            </li>
+                            <li idx="c">
+                                <img height="150" src="${base}/images/thumb-differ.png" alt=""/>
+                                <br/>
+                                <a href="javascript:void(0)" val="product_differ">+ Click to Add!</a>
+                            </li>
+
+                            <li idx="d">
+                                <img height="150" src="${base}/images/thumb-pkg.png" alt=""/>
+                                <br/>
+                                <a href="javascript:void(0)" val="product_w_pkg">+ Click to Add!</a>
+                            </li>
+
+
+                            <li idx="e">
+                                <img height="150" src="${base}/images/thumb-differ-pkg.png" alt=""/>
+                                <br/>
+                                <a href="javascript:void(0)" val="product_differ_w_pkg">+ Click to Add!</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div><div class="utility layout">
+                <div class="icon"></div>
+                <div class="dropdown-menu">
+                    <div class="des">Change Page Layout</div>
+                    <div>
+                        Coming soon.
+                    </div>
+                </div>
+            </div>
+
+
+        #end
+    </div>
+    #end
+
+
+    <div class="nav-item-container">
+        #foreach($db in $publicDashboards)
+            <div class="nav-item">
+                <a class="nav-link" href="${base}/widget/index?id=$db.id">
+                    $db.name
+                </a>
+                <div class="btn">
+                    #if(($admin or ($owner and $db.type2 == 1)) and $dashboard and $dashboard.id == $db.id)
+                        <div class="close"></div>
+                    #end
+                </div>
+            </div>
+        #end
+
+        #if($public == false and $dashboard)
+            <div class="nav-item">
+                <a class="nav-link" href="${base}/widget/index}?id=$dashboard.id">
+                    $dashboard.name
+                </a>
+                <div class="btn">
+                    #if($owner or $admin)
+                        <div class="close"></div>
+                    #end
+                </div>
+            </div>
+        #end
+
+        #if($logged)
+            <div class="nav-item" id="my_dbs">
+                <a href="javascript:void(0)">
+                    My Dashboards
+                </a>
+
+                <div class="dropdown-menu">
+                    <div class="des">My Dashboards</div>
+                    <div id="dddbbbs" style="padding: 5px;">
+                    </div>
+
+                    #if($admin)
+                        <div class="des">All Project Dashboards</div>
+                        <div id="all_dbs" style="padding: 5px;"></div>
+                    #end
+                </div>
+            </div>
+        #end
+    </div>
+
+</div>
+
+
+
+
+#if($logged)
+
+<div id="mask" class="transparent mask hide">
+</div>
+
+<div id="add_db_dialog" class="add_db_dialog hide"
+     style="padding: 5px 10px">
+    Dashboard Name:
+    <input type="text" name="db_name" id="db_name"/>
+    <a href="javascript:void(0)" val="save">Save</a>
+    <a href="javascript:void(0)" val="cancel">Cancel</a>
+</div>
+
+    #if($owner or $admin)
+
+    <div id="user_manage" class="user_manage hide">
+        <div class="title">User Management</div>
+        <div class="content">
+
+            #if($admin)
+                <div class="sub-title">Add or Remove Owners</div>
+                <div class="edit_panel owner">
+                </div>
+            #end
+
+            <div class="sub-title">Add or Remove Members</div>
+            <div class="edit_panel member">
+            </div>
+
+            <div style="text-align: center; padding: 10px 0">
+                <a id="close" href="javascript:void(0)">Close</a>
+            </div>
+        </div>
+    </div>
+
+    #end
+#end
+
+
+<script type="text/javascript">
+
+
+
+
+    function addDashboard(name, columns, t, pub) {
+        $.ajaxSetup({async:false});
+
+        $.post("add_db", {'name':name, 'columns':columns, 'typea': t, 'pub': pub},
+                function (data) {
+
+                    var response = eval("(" + data + ")");
+                    if (response["statusCode"] == 0) {
+                        var id = response["ext"]["dbid"];
+
+                        var url = window.location.href;
+
+                        var nurl = url.replace(/index(\?id=([0-9]+))?$/, "index?id=" + id);
+
+                        window.location.href = nurl;
+
+                    } else if (response["statusCode"] == -1) {
+//                        alert(response["statusMessage"]);
+                        alert(response.ext.errMsg);
+                    }
+                });
+    }
+
+
+    $(function() {
+        // open add dashboard dialog
+        $("#nav_bar").find(".utility.add").click(function() {
+
+            var wh = $(window).height();
+            var ww = $(window).width();
+            var max_h = Math.max($(document).height(), wh);
+
+            var dlg = $("#add_db_dialog");
+
+            dlg.removeClass("hide");
+
+            var w = dlg.width();
+            var h = dlg.height();
+
+            var top = Math.max(0, Math.round((wh - h) / 3));
+            var left = Math.round((ww - w) / 2);
+
+            dlg.css('top', top + "px").css('left', left + "px");
+
+            dlg.find("input").trigger("focus");
+            dlg.find("a").button();
+
+            $("#mask").removeClass("hide").height(max_h);
+
+            dlg.find("a[val=save]").click(function() {
+                var name = $.trim($("#db_name").val());
+
+                if(name == "") {
+                    alert("Please input dashboard name!");
+                    return;
+                }
+
+                #if($admin)
+                    addDashboard(name, 2, 0, 1);
+                #else
+                    addDashboard(name, 2, 1, 0);
+                #end
+
+                $("#mask").addClass("hide");
+                $("#add_db_dialog").addClass("hide");
+            });
+
+            dlg.find("a[val=cancel]").click(function() {
+                $("#mask").addClass("hide");
+                $("#add_db_dialog").addClass("hide");
+            });
+        });
+
+        // add a widget
+        $(".right-col").find("a[val]").click(function() {
+            var val = $(this).attr("val");
+
+            $.ajaxSetup({async:false});
+
+            var newWidgetId = addNewWidget(val, __DashboardId__);
+
+            if (newWidgetId > 0) {
+                $.fn.AddEasyWidget(generateEditableWidget(newWidgetId), "widget-place-1");
+                saveDashboardLayout(__DashboardId__);
+
+                $(this).parents("div.utility").removeClass("selected");
+            } else {
+                alert("widget add failure");
+            }
+        });
+    });
+
+
+    // user management
+    $(function() {
+        $("#nav_bar").find(".utility.user").click(function() {
+            var wh = $(window).height();
+            var ww = $(window).width();
+            var max_h = Math.max($(document).height(), wh);
+
+            var dlg = $("#user_manage");
+            // show mask
+            $("#mask").removeClass("hide").height(max_h);
+
+            // show user management dialog
+            dlg.removeClass("hide");
+
+            dlg.find("#close").button();
+            dlg.find("#close").click(function() {
+                $("#mask").addClass("hide");
+                dlg.addClass("hide");
+            });
+
+
+            var w = dlg.width();
+            var h = dlg.height();
+
+            var top = Math.max(0, Math.round((wh - h) / 3));
+            var left = Math.round((ww - w) / 2);
+
+            dlg.css('top', top + "px").css('left', left + "px");
+
+
+            //
+            $("#user_manage .edit_panel").each(function() {
+
+                $(this).html('');
+                $(this).multiInput("setup");
+
+            });
+
+
+            // --------------------
+            // auto complete owner
+            $("#user_manage .edit_panel.owner").multiInput("autocomplete", {
+                minLength:2,
+                source:"${base}/user/search_user",
+                focus:function (event, ui) {
+                    return false;
+                },
+                select:function (event, ui) {
+                    // add owner
+                    $.get("${base}/user/user_cr", {
+                        "dbid":__DashboardId__,
+                        "uid":ui.item.id,
+                        "role":0,
+                        "cmd":"add"
+                    }, function (data) {
+                        if (data == "SUCCESS")
+                            $("#user_manage .edit_panel.owner").multiInput("addItem",
+                                    ui.item.fullname + " (" + ui.item.username + ")",
+                                    ui.item.id);
+                    });
+
+                    $(this).val('');
+                    return false;
+                }
+            });
+
+
+            // --------------------
+            // auto complete member
+            $("#user_manage .edit_panel.member").multiInput("autocomplete", {
+                minLength:2,
+                source:"${base}/user/search_user",
+                focus:function (event, ui) {
+                    return false;
+                },
+                select:function (event, ui) {
+                    // add owner
+                    $.get("${base}/user/user_cr", {
+                        "dbid":__DashboardId__,
+                        "uid":ui.item.id,
+                        "role":1,
+                        "cmd":"add"
+                    }, function (data) {
+                        if (data == "SUCCESS")
+                            $("#user_manage .edit_panel.member").multiInput("addItem",
+                                    ui.item.fullname + " (" + ui.item.username + ")",
+                                    ui.item.id);
+                    });
+
+                    $(this).val('');
+                    return false;
+                }
+            });
+
+
+            // set auto complete item content/sytle
+            $("#user_manage .edit_panel").each(function() {
+                $(this).find("input:text")
+                        .data("autocomplete")
+                        ._renderItem = function (ul, item) {
+                    return $("<li></li>")
+                            .data("item.autocomplete", item)
+                            .append("<a>" + item.fullname + " (" + item.username + ")</a>")
+                            .appendTo(ul);
+                };
+            });
+
+
+            // show existing owners
+            $.get("${base}/user/get_d_user",
+                    {id:__DashboardId__, r:0, ts: ts()},
+                    function (data) {
+
+                        var arr = eval('(' + data + ')');
+                        $.each(arr, function (i, v) {
+                            $("#user_manage .edit_panel.owner").multiInput("addItem",
+                                    v.fullname + ' (' + v.username + ')', v.id);
+                        });
+
+                    });
+
+            // show existing members
+            $.get("${base}/user/get_d_user",
+                    {id:__DashboardId__, r:1, ts: ts()},
+                    function (data) {
+
+                        var arr = eval('(' + data + ')');
+                        $.each(arr, function (i, v) {
+                            $("#user_manage .edit_panel.member").multiInput("addItem",
+                                    v.fullname + ' (' + v.username + ')', v.id);
+                        });
+                    });
+
+
+            $("#user_manage .edit_panel.owner").click(function (e) {
+                var tag = $(e.target);
+                var b1 = tag.hasClass('close');
+                var b2 = tag.get(0).tagName.toLowerCase() == 'span';
+
+                if (b1 && b2) {
+                    var id = tag.parent().find("input").val();
+
+                    // add code here to remove user with this id,
+                    // from db
+                    $.get("${base}/user/user_cr", {
+                        "dbid":__DashboardId__,
+                        "uid":id,
+                        "role":0,
+                        "cmd":"del"
+                    }, function (data) {
+                        if (data == "SUCCESS")
+                            tag.parent().remove();
+                    });
+
+
+                }
+            });
+
+
+            $("#user_manage .edit_panel.member").click(function (e) {
+                var tag = $(e.target);
+                var b1 = tag.hasClass('close');
+                var b2 = tag.get(0).tagName.toLowerCase() == 'span';
+
+                if (b1 && b2) {
+                    var id = tag.parent().find("input").val();
+
+                    // add code here to remove user with this id,
+                    // from db
+                    $.get("${base}/user/user_cr", {
+                        "dbid":__DashboardId__,
+                        "uid":id,
+                        "role":1,
+                        "cmd":"del"
+                    }, function (data) {
+                        if (data == "SUCCESS")
+                            tag.parent().remove();
+                    });
+
+
+                }
+            });
+
+
+        });
+    });
+
+
+
+
+    // functional button
+    $(function() {
+        var dbid = $dashboard.id;
+        $("#nav_bar").find("a[href$=id\\=" + dbid + "]")
+                .parent().addClass("selected");
+
+        var utilities = $("#nav_bar .utilities .utility");
+
+        utilities.click(function(e) {
+            var tag = $(e.target);
+
+            if(!tag.hasClass("icon") && !tag.hasClass("utility")) return;
+
+            // get fired only when click on icon element
+//            if(!tag.hasClass("icon")) return;
+
+            var u = tag.parents("div.utility");
+
+            if(tag.hasClass("add") || u.hasClass("add")) return;
+            if(tag.hasClass("user") || u.hasClass("user")) return;
+
+            var _this = $(this);
+
+            var b = _this.hasClass("selected");
+
+            utilities.removeClass("selected");
+
+            if(!b)
+                _this.addClass("selected");
+        });
+    });
+
+
+
+    // left column select
+    $(function() {
+        $(".left-col").find("a").click(function() {
+            $(".left-col").find("a").removeClass("sel");
+            $(this).addClass("sel");
+            var idx = $(this).attr('idx');
+
+            $(".right-col").find("li").slideUp();
+            $(".right-col").find("li[idx=" + idx + "]").slideDown();
+        });
+
+        $(".left-col").find("a:last").trigger('click');
+    });
+
+
+    // toggle my dashboards panel
+    $(function() {
+       $("#my_dbs").click(function() {
+           var o = $(this).find(".dropdown-menu");
+
+           if(o.css('visibility') == 'hidden') {
+
+
+
+               $.get("get_my_dbs", {ts: ts()}, function(data) {
+                   var links = eval("(" + data + ")");
+
+                   $("#dddbbbs").html('');
+
+                   $.each(links, function(i, val) {
+                       var l = newLinkItem("index?id=" + val.id, val.name, false);
+
+//                       var l = $('<a href="index?id=' + val.id + '">' + val.name + '</a>');
+//                       l.css('padding', '0 10px');
+
+                       $("#dddbbbs").append(l);
+                   });
+
+               });
+
+
+
+               #if($admin)
+
+               $.get("get_all_proj_dbs", {ts: ts()}, function(data) {
+
+                   var links = eval("(" + data + ")");
+
+                   $("#all_dbs").html('');
+
+                   $.each(links, function(i, val) {
+                       var l = newLinkItem("index?id=" + val.id, val.name, false);
+
+//                       var l = $('<a href="index?id=' + val.id + '">' + val.name + '</a>');
+//                       l.css('padding', '0 10px');
+
+                       $("#all_dbs").append(l);
+                   });
+
+               });
+
+               #end
+
+               o.css('visibility', 'visible');
+           }
+           else
+               o.css('visibility', 'hidden');
+
+
+       });
+    });
+
+    $(function() {
+       $("#nav_bar").find("div.btn > div.close").click(function() {
+           var cls = $(this);
+           var b = confirm("Delete this dashboard?")
+           if(b) {
+               $.get("del_db", {"dbid": __DashboardId__}, function(data) {
+                   var o = eval("(" + data + ")");
+                    if(o.statusCode == 0) {
+                        location.href = location.href;
+                    } else {
+                        alert(o.ext.errMsg);
+                    }
+               });
+           }
+       });
+    });
+
+
+
+    $(function() {
+        $(".utility.user").qtip({
+            #if($admin)
+                content:'<b style="color:#69c;">User Management</b> <br /> Add or remove owners and members.',
+            #else
+                content:'<b style="color:#69c;">User Management</b> <br /> Add or remove members.',
+            #end
+            show: 'mouseover',
+            hide: 'mouseout',
+            position: {
+                corner: {
+                    target: 'bottomMiddle',
+                    tooltip: 'topMiddle'
+                }
+            }
+        });
+
+
+
+        $(".utility.add").qtip({
+            #if($admin)
+                content:'<b style="color:#69c;">Add Dashboards</b> <br /> These dashboards are public.',
+            #else
+                content:'<b style="color:#69c;">Add Dashboards</b> <br /> These dashboards are private to you,<br />and you can add at most 3 dashboards.',
+            #end
+            show: 'mouseover',
+            hide: 'mouseout',
+            position: {
+                corner: {
+                    target: 'bottomMiddle',
+                    tooltip: 'topMiddle'
+                }
+            }
+        });
+
+
+
+        $(".utility.app").qtip({
+            content:'<b style="color:#69c;">Add Widgets</b> <br /> Add widgets for current dashboard.',
+            show: 'mouseover',
+            hide: 'mouseout',
+            position: {
+                corner: {
+                    target: 'bottomMiddle',
+                    tooltip: 'topMiddle'
+                }
+            }
+        });
+    });
+
+
+
+    $(function() {
+        $("#nav_bar").click(function(e) {
+
+            var tag = $(e.target);
+            var b = tag.parents(".utilities").length > 0;
+
+            // close my dashboard drop down menu
+            if(b) {
+                $("#my_dbs").find(".dropdown-menu").css("visibility", "hidden");
+            }
+        });
+
+
+        $("body").click(function(e) {
+
+            var tag = $(e.target);
+            var b = tag.parents("#nav_bar").length > 0;
+
+            // close my dashboard drop down menu
+            if(!b) {
+                $("#my_dbs").find(".dropdown-menu").css("visibility", "hidden");
+            }
+        });
+    });
+</script>

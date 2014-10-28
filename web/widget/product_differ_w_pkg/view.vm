@@ -1,0 +1,284 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <link type="text/css" rel="stylesheet" href="${base}/css/tab.css"/>
+    <script type="text/javascript" src="${base}/script/jquery172.js"></script>
+    <script type="text/javascript" src="${base}/script/common.js"></script>
+
+    <style type="text/css">
+        .pc-grp {
+            font-weight: bold;
+            font-size: 12px;
+        }
+    </style>
+    <script type="text/javascript">
+
+        $(function () {
+            resizeIfrmSize("view");
+
+
+            $(".tbl-rst").click(function(e) {
+
+                var el = $(e.target);
+                var tr = el.parents('tr[pkg]');
+
+                if(tr.length == 0) return;
+
+                var pkg = tr.attr('pkg');
+
+                $(this).find('tr[pid]').each(function(i, sub) {
+                    if($(sub).attr('pid') == pkg)
+                    $(sub).toggle();
+                });
+
+
+                var html = tr.find("div.pc-grp").html();
+
+                var m = html.match(/^\(([+-])\)(.+)$/)
+                if(m) {
+                    if(m[1] == "+")
+                        html = "(-)" + m[2];
+                    else
+                        html = "(+)" + m[2];
+
+                    tr.find("div.pc-grp").html(html);
+                }
+
+                resizeIfrmSize('view');
+            });
+        });
+
+
+    </script>
+</head>
+<body style="padding: 0; margin: 0;">
+<div>
+    #if(!$data)
+        <div style="height: 100px; line-height: 100px; text-align: center;">
+            Please Edit Your Project View.
+        </div>
+    #else
+        <table width="100%" class="tbl-rst" cellpadding="5" cellspacing="1">
+            <thead>
+            <tr>
+                <td style="width: 100px;"></td>
+                <td colspan="3" class="hdr-normal" style="text-align: center;">Previous Build</td>
+                <td colspan="3" class="hdr-normal" style="text-align: center;">Latest Build</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="hdr-normal">Project</td>
+
+                <td class="hdr-normal">Total Case</td>
+                <td class="hdr-fail">Fail Case</td>
+                <td class="hdr-normal">Pass Rate</td>
+
+                <td class="hdr-normal">Total Case</td>
+                <td class="hdr-fail">Fail Case</td>
+                <td class="hdr-normal">Pass Rate</td>
+
+                <td class="hdr-normal">Differ</td>
+            </tr>
+            </thead>
+
+            #set($pkgs = $setting.get("project_codes"))
+
+            #foreach($pc in $pkgs.get('--'))
+
+                #set($stats = $data.getStat($pc))
+
+                <tr>
+                    #if($stats.size() == 2)
+                        <td class="normal ellips" title="$stats.get(0).projectCode">
+                            <a href="$rptBaseUrl/tasche/reports/viewGenericDiffReport.action?projectCode=$stats.get(0).projectCode&curBuildNum=$stats.get(0).buildNumber&preBuildNum=$stats.get(1).buildNumber"
+                               target="_blank"
+                               style="text-decoration: none;">
+                                $stats.get(0).projectCode
+                            </a>
+
+                        </td>
+
+                        <td class="normal">$stats.get(1).totalCase</td>
+                        <td class="fail">$stats.get(1).failedCase</td>
+                        <td class="normal">
+                            $stats.get(1).passrate
+                        </td>
+
+                        <td class="normal">$stats.get(0).totalCase</td>
+                        <td class="fail">$stats.get(0).failedCase</td>
+                        <td class="normal">
+                            $stats.get(0).passrate
+                        </td>
+                        #set($diff = $math.roundTo(2,$math.sub($stats.get(0).passrate, $stats.get(1).passrate)))
+
+                        #if($stats.get(0).passrate > $stats.get(1).passrate)
+                            <td class="pass">
+                                $diff
+                            </td>
+                        #elseif($stats.get(0).passrate < $stats.get(1).passrate)
+                            <td class="fail">
+                                $diff
+                            </td>
+                        #else
+                            <td class="normal">
+                                $diff
+                            </td>
+                        #end
+
+
+                    #elseif($stats.size() == 1)
+                        <td class="normal ellips" title="$stats.get(0).projectCode">
+                            $stats.get(0).projectCode
+                        </td>
+
+                        <td class="normal">N/A</td>
+                        <td class="fail">N/A</td>
+                        <td class="normal">N/A</td>
+
+                        <td class="normal">$stats.get(0).totalCase</td>
+                        <td class="fail">$stats.get(0).failedCase</td>
+                        <td class="normal">
+                            $stats.get(0).passrate
+                        </td>
+                        <td class="normal">N/A</td>
+                    #else
+                        <td class="normal ellips">$pc</td>
+                        <td class="normal">N/A</td>
+                        <td class="normal">N/A</td>
+                        <td class="normal">N/A</td>
+                        <td class="normal">N/A</td>
+                        <td class="normal">N/A</td>
+                        <td class="normal">N/A</td>
+                        <td class="normal">N/A</td>
+                    #end
+                </tr>
+
+            #end
+
+            #foreach($kk in $pkgs.keySet())
+                #if($kk != '--' and $pkgs.get($kk).size() > 0)
+
+                    #set($ppcc = $pkgs.get($kk))
+                    #set($ttff = $data.getTotal($ppcc))
+
+                    <tr pkg="$kk" style="cursor: pointer;">
+                        <td class="normal ellips" title="click to toggle expand and collapse">
+                            <div class="pc-grp" style="font-family: Courier New;">(+) $kk</div>
+                        </td>
+
+                        #if($ttff.size() > 1)
+                        <td class="normal">$ttff.get(1).totalCase</td>
+                        <td class="fail">$ttff.get(1).failedCase</td>
+                        <td class="normal">$ttff.get(1).passrate%</td>
+                        #else
+                            <td class="normal">N/A</td>
+                            <td class="normal">N/A</td>
+                            <td class="normal">N/A</td>
+                        #end
+
+                        <td class="normal">$ttff.get(0).totalCase</td>
+                        <td class="fail">$ttff.get(0).failedCase</td>
+                        <td class="normal">$ttff.get(0).passrate%</td>
+
+                        #if($ttff.size() > 1)
+
+                            #set($diff = $math.roundTo(2,$math.sub($ttff.get(0).passrate, $ttff.get(1).passrate)))
+
+                            #if($ttff.get(0).passrate > $ttff.get(1).passrate)
+                                <td class="pass">
+                                    $diff
+                                </td>
+                            #elseif($ttff.get(0).passrate < $ttff.get(1).passrate)
+                                <td class="fail">
+                                    $diff
+                                </td>
+                            #else
+                                <td class="normal">
+                                    $diff
+                                </td>
+                            #end
+                        #else
+                            <td class="normal">N/A</td>
+                        #end
+                    </tr>
+
+                    #foreach($pc in $pkgs.get($kk))
+
+                        #set($stats = $data.getStat($pc))
+
+                        <tr pid="$kk" style="display: none;" class="sub">
+                            #if($stats.size() == 2)
+                                <td class="normal ellips" title="$stats.get(0).projectCode">
+                                    <a href="$rptBaseUrl/tasche/reports/viewGenericDiffReport.action?projectCode=$stats.get(0).projectCode&curBuildNum=$stats.get(0).buildNumber&preBuildNum=$stats.get(1).buildNumber"
+                                       target="_blank"
+                                       style="text-decoration: none;">
+                                        $stats.get(0).projectCode
+                                    </a>
+
+                                </td>
+
+                                <td class="normal">$stats.get(1).totalCase</td>
+                                <td class="fail">$stats.get(1).failedCase</td>
+                                <td class="normal">
+                                    $stats.get(1).passrate
+                                </td>
+
+                                <td class="normal">$stats.get(0).totalCase</td>
+                                <td class="fail">$stats.get(0).failedCase</td>
+                                <td class="normal">
+                                    $stats.get(0).passrate
+                                </td>
+
+                                #set($diff = $math.roundTo(2,$math.sub($stats.get(0).passrate, $stats.get(1).passrate)))
+
+                                #if($stats.get(0).passrate > $stats.get(1).passrate)
+                                    <td class="pass">
+                                        $diff
+                                    </td>
+                                #elseif($stats.get(0).passrate < $stats.get(1).passrate)
+                                    <td class="fail">
+                                        $diff
+                                    </td>
+                                #else
+                                    <td class="normal">
+                                        $diff
+                                    </td>
+                                #end
+
+
+                            #elseif($stats.size() == 1)
+                                <td class="normal ellips" title="$stats.get(0).projectCode">
+                                    $stats.get(0).projectCode
+                                </td>
+
+                                <td class="normal">N/A</td>
+                                <td class="fail">N/A</td>
+                                <td class="normal">N/A</td>
+
+                                <td class="normal">$stats.get(0).totalCase</td>
+                                <td class="fail">$stats.get(0).failedCase</td>
+                                <td class="normal">
+                                    $stats.get(0).passrate
+                                </td>
+                                <td class="normal">N/A</td>
+                            #else
+                                <td class="normal ellips">$pc</td>
+                                <td class="normal">N/A</td>
+                                <td class="normal">N/A</td>
+                                <td class="normal">N/A</td>
+                                <td class="normal">N/A</td>
+                                <td class="normal">N/A</td>
+                                <td class="normal">N/A</td>
+                                <td class="normal">N/A</td>
+                            #end
+                        </tr>
+
+                    #end
+                #end
+            #end
+        </table>
+    #end
+</div>
+</body>
+</html>

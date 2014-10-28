@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+    <bean id="abstractApplicationAction"
+          class="com.cisex.qd.web.action.ApplicationAction"
+          abstract="true">
+    </bean>
+
+    <bean id="dataAccessAction" class="com.cisex.qd.web.action.DataAccessAction" abstract="true" scope="prototype">
+        <property name="dao" ref="theDao"/>
+    </bean>
+
+    <bean id="apiAction" class="com.cisex.qd.web.action.ApiAction" abstract="true" parent="dataAccessAction">
+
+    </bean>
+
+    <bean id="homeAction" class="com.cisex.qd.web.action.HomeAction"/>
+
+    <bean id="projectAction" class="com.cisex.qd.web.action.project.ProjectAction">
+        <property name="projectDao" ref="projectDao"/>
+    </bean>
+</beans>

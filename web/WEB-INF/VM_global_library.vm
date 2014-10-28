@@ -1,0 +1,44 @@
+#macro(uneditableWidget $widget $id)
+<div class="widget closeconfirm" id="widgetid-$id">
+    <div class="widget-header">
+        <strong class="widget-title">$widget.getName()</strong>
+    </div>
+    <div class="widget-content">
+        <iframe src="view?widgetId=$id" style="width: 100%; overflow: hidden; border: 1px; height: auto"
+                frameborder="0" scrolling="no" scrollbar="no"></iframe>
+    </div>
+</div>
+#end
+
+
+#macro(editableWidget $widget $id)
+<div class="widget movable removable editable closeconfirm" id="widgetid-$id">
+    <div class="widget-header">
+        <strong class="widget-title">$widget.getName()</strong>
+    </div>
+    <div class="widget-editbox" widgetid=$id>
+        <iframe src="setting?widgetId=$id" style="width: 100%; overflow: hidden; border: 0px; height: auto"
+                frameborder="0" scrolling="no" scrollbar="no"></iframe>
+    </div>
+    <div class="widget-content" widgetid=$id>
+        <iframe src="view?widgetId=$id" style="width: 100%; overflow: hidden; border: 0px; height: auto"
+                frameborder="0" scrolling="no" scrollbar="no"></iframe>
+    </div>
+</div>
+#end
+
+
+
+
+
+#macro(uneditableWidget2 $widget $id)
+<div class="widget closeconfirm" id="widgetid-$id">
+    <div class="widget-header">
+        <strong class="widget-title">$widget.getName()</strong>
+    </div>
+    <div class="widget-content">
+        <iframe src="widget/view?widgetId=$id" style="width: 100%; overflow: hidden; border: 0px; height: auto"
+                frameborder="0" scrolling="no" scrollbar="no"></iframe>
+    </div>
+</div>
+#end

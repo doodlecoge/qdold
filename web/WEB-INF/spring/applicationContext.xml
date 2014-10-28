@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+
+        <property name="jdbcUrl" value="jdbc:mysql://10.224.138.202:3306/qd"/>
+        <property name="user" value="hch"/>
+        <property name="password" value="pass321"/>
+
+        <!--<property name="jdbcUrl" value="jdbc:mysql://10.224.105.140:3306/qd"/>-->
+        <!--<property name="user" value="root"/>-->
+        <!--<property name="password" value="pass321"/>-->
+
+        <property name="initialPoolSize" value="3"/>
+        <property name="minPoolSize" value="5"/>
+        <property name="maxPoolSize" value="50"/>
+
+        <property name="maxConnectionAge" value="3600"/>
+        <property name="maxIdleTime" value="600"/>
+        <property name="acquireIncrement" value="10"/>
+        <property name="automaticTestTable" value="c3p0test"/>
+        <property name="checkoutTimeout" value="10000"/>
+
+        <property name="maxStatements" value="100"/>
+        <property name="testConnectionOnCheckout" value="false"/>
+        <property name="acquireRetryAttempts" value="5"/>
+        <property name="breakAfterAcquireFailure" value="true"/>
+    </bean>
+
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:hibernate.cfg.xml"/>
+    </bean>
+
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <import resource="applicationContext-actions.xml"/>
+    <import resource="applicationContext-widget.xml"/>
+    <import resource="applicationContext-security.xml"/>
+    <import resource="applicationContext-dao.xml"/>
+</beans>

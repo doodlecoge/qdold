@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+
+
+
+    <class name="com.cisex.qd.vo.Dashboard" table="dashboards" entity-name="Dashboard">
+
+        <id name="id" column="id" type="integer">
+            <generator class="native"/>
+        </id>
+
+        <property name="name" column="name"/>
+        <property name="layout" column="layout"/>
+        <property name="type2" column="type" type="integer"/>
+        <property name="pub" column="public"/>
+        <property name="rank" column="rank"/>
+
+
+        <set name="widgets" lazy="false" inverse="true">
+            <key column="dashboard_id"/>
+            <one-to-many entity-name="Widget"/>
+        </set>
+
+        <set name="users" table="users_dashboards" where="role=1"
+             inverse="true" lazy="false" fetch="join" cascade="none">
+            <key column="dashboard_id"></key>
+
+            <!-- *** class not work, use entity-name instead *** -->
+            <many-to-many entity-name="Users">
+                <column name="user_id"></column>
+            </many-to-many>
+        </set>
+
+        <set name="owners" table="users_dashboards" where="role=0"
+             inverse="true" lazy="false" fetch="join" cascade="none">
+            <key column="dashboard_id"></key>
+
+            <!-- *** class not work, use entity-name instead *** -->
+            <many-to-many entity-name="Users">
+                <column name="user_id"></column>
+            </many-to-many>
+        </set>
+
+    </class>
+
+</hibernate-mapping>

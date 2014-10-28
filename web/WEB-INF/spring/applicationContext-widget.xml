@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+
+
+    <bean id="widget_setting" class="com.cisex.qd.web.action.widget.GetSettingAction" parent="dataAccessAction"/>
+    <bean id="widget_save" class="com.cisex.qd.web.action.widget.SaveSettingAction" parent="dataAccessAction"/>
+    <bean id="widget_create" class="com.cisex.qd.web.action.widget.CreateWidgetAction" parent="dataAccessAction"/>
+    <bean id="widget_delete" class="com.cisex.qd.web.action.widget.DeleteWidgetAction" parent="dataAccessAction"/>
+    <bean id="widget_view" class="com.cisex.qd.web.action.widget.GetViewAction" parent="dataAccessAction"/>
+    <bean id="widget_index" class="com.cisex.qd.web.action.widget.IndexAction" parent="dataAccessAction"/>
+    <bean id="widget_saveboard" class="com.cisex.qd.web.action.widget.SaveDashboardLayoutAction" parent="dataAccessAction"/>
+
+
+
+    <bean id="dashboard_create" class="com.cisex.qd.web.action.widget.AddDashboard" parent="dataAccessAction"/>
+
+    <bean id="dashboard_delete" class="com.cisex.qd.web.action.widget.DeleteDashboardAction" parent="dataAccessAction"/>
+
+    <bean id="get_my_dbs_action" class="com.cisex.qd.web.action.widget.GetMyDashboardsAction" parent="dataAccessAction"/>
+
+    <bean id="get_all_proj_dbs_action" class="com.cisex.qd.web.action.widget.GetAllProjDashboardsAction" parent="dataAccessAction"/>
+
+    <bean id="dashboards_action" class="com.cisex.qd.web.action.widget.DashboardsAction" parent="dataAccessAction"></bean>
+    <!--<bean id="decorators_menu" class="com.cisex.qd.menu.DashboardsAction" parent="dataAccessAction"></bean>-->
+
+    <bean id="search_user_action" class="com.cisex.qd.web.action.user.SearchUserAction" parent="dataAccessAction"></bean>
+
+    <bean id="user_cr" class="com.cisex.qd.web.action.user.UserCRAction" parent="dataAccessAction"></bean>
+
+    <bean id="get_dashboard_user" class="com.cisex.qd.web.action.user.GetDashboardUserAction" parent="dataAccessAction"></bean>
+
+
+    <!--<bean id="def_index" class="com.cisex.qd.web.action.DefIndexAction" parent="dataAccessAction"></bean>-->
+</beans>

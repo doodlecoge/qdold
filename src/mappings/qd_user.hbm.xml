@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+
+    <class name="com.cisex.qd.vo.User" table="users" entity-name="Users">
+        <id name="id" column="id"/>
+        <property name="username" column="username"/>
+        <property name="fullname" column="fullname"/>
+        <property name="enabled" column="enabled" type="boolean"/>
+
+
+        <set name="dashboards" table="users_dashboards"
+             inverse="false" lazy="false" fetch="select" cascade="all">
+            <key column="user_id"></key>
+
+            <!-- *** class not work, use entity-name instead *** -->
+            <!--<many-to-many class="com.cisex.qd.vo.Dashboard">-->
+            <many-to-many entity-name="Dashboard">
+                <column name="dashboard_id"></column>
+            </many-to-many>
+        </set>
+    </class>
+
+
+</hibernate-mapping>

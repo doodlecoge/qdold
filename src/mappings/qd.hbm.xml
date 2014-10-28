@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.cisex.qd.vo.Project" table="project"
+           entity-name="Project">
+        <id name="id" column="id"/>
+        <property name="name" column="name"/>
+    </class>
+
+
+
+    <!--<class name="com.cisex.qd.vo.Dashboard" table="dashboards" entity-name="Dashboard">-->
+        <!--<id name="id" column="id">-->
+            <!--<generator class="native"/>-->
+        <!--</id>-->
+        <!--<property name="name" column="name"/>-->
+        <!--<property name="layout" column="layout"/>-->
+
+        <!--<set name="widgets" lazy="false">-->
+            <!--<key column="dashboard_id"/>-->
+            <!--<one-to-many entity-name="Widget"/>-->
+        <!--</set>-->
+
+        <!--<set name="users" table="users_dashboards" lazy="true">-->
+            <!--<key column="dashboard_id"></key>-->
+            <!--<many-to-many class="com.cisex.qd.vo.User">-->
+                <!--<column name="user_id"></column>-->
+            <!--</many-to-many>-->
+        <!--</set>-->
+    <!--</class>-->
+
+    <!--<class name="com.cisex.qd.vo.User" table="users" entity-name="Users">-->
+        <!--<id name="id" column="id"/>-->
+        <!--<property name="username" column="username"/>-->
+        <!--<property name="fullname" column="fullname"/>-->
+        <!--<property name="enabled" column="enabled" type="boolean"/>-->
+
+        <!--<set name="dashboards" table="users_dashboards" lazy="true">-->
+            <!--<key column="user_id"></key>-->
+
+            <!--<many-to-many class="com.cisex.qd.vo.Dashboard">-->
+                <!--<column name="dashboard_id"></column>-->
+            <!--</many-to-many>-->
+        <!--</set>-->
+    <!--</class>-->
+
+
+    <!--<class name="com.cisex.qd.vo.UsersDashboards"-->
+           <!--table="users_dashboards" entity-name="UsersDashboards">-->
+        <!--<id name="userId" column="user_id"></id>-->
+        <!--<property name="dashboardId" column="dashboard_id"/>-->
+        <!--<property name="cat" column="cat"/>-->
+    <!--</class>-->
+
+
+
+</hibernate-mapping>

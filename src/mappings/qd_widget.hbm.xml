@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.cisex.qd.vo.Widget" table="widgets" entity-name="Widget">
+        <id name="id" column="id">
+            <generator class="native"/>
+        </id>
+        <property name="dashboardId" column="dashboard_id"/>
+        <property name="setting" column="setting"/>
+        <property name="type" column="type"/>
+        <property name="name" column="name"/>
+    </class>
+
+    <class name="com.cisex.qd.vo.UsersDashboards" table="users_dashboards" entity-name="UsersDashboards">
+        <!-- usersDashboardsPK is another class the implements Serializable -->
+        <composite-id name="usersDashboardsPK" class="com.cisex.qd.vo.UsersDashboardsPK" >
+            <key-property name="userId" column="user_id" type="integer" />
+            <key-property name="dashboardId" column="dashboard_id" type="integer"/>
+        </composite-id>
+
+        <!-- Normal properties of a java class -->
+        <property name="role" column="role" type="integer"/>
+
+        <many-to-one name="user" column="user_id" insert="false" update="false" entity-name="Users" />
+    </class>
+
+
+    <class name="com.cisex.qd.vo.Admin" table="admin_users" entity-name="AdminUsers">
+        <!-- usersDashboardsPK is another class the implements Serializable -->
+        <id name="username" column="username"></id>
+    </class>
+</hibernate-mapping>

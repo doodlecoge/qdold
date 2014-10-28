@@ -1,0 +1,62 @@
+
+body {
+    font-size: 62.5%;
+    font-family: Arial;
+}
+
+.tbl-rst {
+    table-layout: fixed;
+    font-size: 10px;
+    color: #444;
+}
+
+
+
+.tbl-rst thead {
+    font-weight: bold;
+}
+
+.tbl-rst td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tbl-rst td.hdr-normal {
+    background: #7DAEDF;
+}
+
+.tbl-rst td.normal {
+    background: #def;
+}
+
+.tbl-rst td.hdr-fail {
+    background: #7DAEDF;
+    color: #c40;
+}
+
+.tbl-rst td.fail {
+    background: #def;
+    color: #c40;
+}
+
+.tbl-rst td.pass {
+    color: #163;
+    background: #def;
+}
+
+.tbl-rst tfoot td {
+    font-weight: bold;
+    background: #def;
+}
+
+td.ellips {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+
+.tbl-rst tr.sub td {
+    background: #cba;
+}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<decorators defaultdir="/decorators">
+    <decorator name="null">
+        <pattern>/login</pattern>
+        <pattern>/widget/configuration</pattern>
+    </decorator>
+    <decorator name="main" page="main.vm">
+        <pattern>/*</pattern>
+    </decorator>
+</decorators>

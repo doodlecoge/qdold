@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+        "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+<struts>
+    <package name="widget" extends="default" namespace="/widget">
+        <default-action-ref name="index"></default-action-ref>
+
+        <action name="setting" class="widget_setting">
+            <result type="plainText"/>
+        </action>
+
+        <action name="save" class="widget_save">
+            <result type="plainText"/>
+        </action>
+
+        <action name="create" class="widget_create">
+            <result type="plainText"/>
+        </action>
+
+        <action name="delete" class="widget_delete">
+            <result type="plainText"/>
+        </action>
+
+        <action name="view" class="widget_view">
+            <result type="plainText"/>
+        </action>
+
+        <action name="index" class="widget_index">
+            <result name="success" type="velocity">/widget/index.vm</result>
+        </action>
+
+        <action name="dashboards" class="dashboards_action">
+            <result name="success" type="velocity">/widget/dashboards.vm</result>
+        </action>
+
+        <action name="savelayout" class="widget_saveboard">
+            <result type="plainText"/>
+        </action>
+
+
+
+        <action name="add_db" class="dashboard_create">
+            <result type="plainText"/>
+        </action>
+
+        <action name="del_db" class="dashboard_delete">
+            <result type="plainText"/>
+        </action>
+
+        <action name="get_my_dbs" class="get_my_dbs_action">
+            <result type="plainText"/>
+        </action>
+
+        <action name="get_all_proj_dbs" class="get_all_proj_dbs_action">
+            <result type="plainText"/>
+        </action>
+
+
+    </package>
+
+    <!--<package name="menu" extends="default" namespace="/decorators">-->
+        <!--<action name="menu" class="decorators_menu">-->
+            <!--<result name="success" type="velocity">-->
+                <!--/decorators/menu.vm-->
+            <!--</result>-->
+        <!--</action>-->
+    <!--</package>-->
+
+    <package name="user" extends="default" namespace="/user">
+        <action name="search_user" class="search_user_action">
+            <result name="success" type="plainText"></result>
+        </action>
+
+        <action name="user_cr" class="user_cr">
+            <result name="success" type="plainText"></result>
+        </action>
+
+        <action name="get_d_user" class="get_dashboard_user">
+            <result name="success" type="plainText"></result>
+        </action>
+    </package>
+
+    <!--<package name="root" extends="default" namespace="/">-->
+        <!--<action name="index" class="def_index">-->
+            <!--<result name="success" type="velocity">-->
+                <!--/index.vm-->
+            <!--</result>-->
+        <!--</action>-->
+    <!--</package>-->
+</struts>

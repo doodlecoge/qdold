@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <link type="text/css" rel="stylesheet" href="${base}/css/tab.css" />
+    <script type="text/javascript" src="${base}/script/jquery172.js"></script>
+    <script type="text/javascript" src="${base}/script/common.js"></script>
+
+    <script type="text/javascript">
+
+        $(function() {
+            resizeIfrmSize("view");
+        });
+
+    </script>
+</head>
+<body style="padding: 0; margin: 0;">
+<div>
+    #if(!$data)
+        <div style="height: 100px; line-height: 100px; text-align: center;">
+            Please Edit Your Project View.
+        </div>
+    #else
+        <table width="100%" class="tbl-rst" cellpadding="5" cellspacing="1">
+            <thead>
+            <tr>
+                <td class="hdr-normal">Project</td>
+                <td class="hdr-normal" style="width:60px">Total Case</td>
+                <td class="hdr-fail" style="width:60px">Failed Case</td>
+                <td class="hdr-normal" style="width:60px">Pass Rate</td>
+                <td class="hdr-normal" style="width:88px">Date Created</td>
+            </tr>
+            </thead>
+            #foreach($stat in $data.getStats())
+                <tr>
+                    <td class="normal ellips" title="$stat.projectCode">
+                        <a href="$rptBaseUrl/tasche/reports/viewGenericReport.action?projectCode=$stat.projectCode&buildNumber=$stat.buildNumber"
+                           target="_blank"
+                           style="text-decoration: none;">
+                            $stat.projectCode
+                        </a>
+                    </td>
+                    <td class="normal">$stat.totalCase</td>
+                    <td class="fail">$stat.failedCase</td>
+                    <td class="normal">
+                        $stat.passrate%
+                    </td>
+                    <td class="fail">$stat.dateCreated</td>
+                </tr>
+            #end
+
+            <tfoot>
+            <tr>
+                <td>Total</td>
+                <td>$data.getTotal().totalCase</td>
+                <td>$data.getTotal().failedCase</td>
+                <td>
+                    $data.getTotal().passrate%
+                </td>
+                <td></td>
+            </tr>
+            </tfoot>
+        </table>
+    #end
+</div>
+</body>
+</html>

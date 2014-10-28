@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <title>${title} - Quality Dashboard -</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="${base}/css/common.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href='${base}/css/default.css' />
+    <link rel="stylesheet" type="text/css" media="screen" href="${base}/css/jquery-ui-1.8.22.custom.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="${base}/css/jquery.ui.selectmenu.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="${base}/css/jquery.multi-input.css"/>
+
+
+    <script type="text/javascript" src="${base}/script/jquery172.js"></script>
+    <script type="text/javascript" src="${base}/script/jquery-ui-1.8.22.custom.min.js"></script>
+    <script type="text/javascript" src="${base}/script/jquery.ui.selectmenu.js"></script>
+    <script type="text/javascript" src="${base}/script/json2.js"></script>
+    <script type="text/javascript" src="${base}/script/common.js"></script>
+    <script type="text/javascript" src="${base}/script/jquery.qtip-1.0.0-rc3.min.js"></script>
+
+
+    <script type="text/javascript" src="${base}/script/jquery.multi-input.js"></script>
+
+    ${head}
+
+    <style type="text/css">
+        .ui-widget {
+            font-size: 12px;
+        }
+
+
+    </style>
+
+    <script type="text/javascript">
+        $.ajaxSetup({
+            dataType: "text"
+        });
+
+        function full_screen() {
+
+        }
+
+        $(window).bind("load resize" ,function() {
+            var hWin = $(window).height();
+
+            var foot = $("#wpfoot");
+            var hFoot = foot.outerHeight();
+            var hHead = $("#wphead").outerHeight();
+            var hNav = $("#nav_bar").outerHeight();
+
+            var off = foot.offset();
+
+            $("#wpcontent").css("min-height", (hWin - hFoot - hHead - hNav) + "px");
+        });
+    </script>
+</head>
+
+<body>
+<div id="wpwrap">
+    #parse("decorators/head.vm")
+
+    #parse("decorators/nav.vm")
+
+    <div id="wpcontent">
+
+##        <div id="adminmenuback"></div>
+##
+##        <div id="adminmenuwrap">
+##            #parse("decorators/menu.vm")
+##        </div>
+
+
+        <div id="wpbody">
+            ${body}
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+    #parse("decorators/foot.vm")
+
+##        <div id="adminmenuback"></div>
+##        <div id="adminmenuwrap">
+####            <div id="adminmenushadow"></div>
+##            #parse("decorators/menu.vm")
+##        </div>
+
+##        <div id="wpbody">
+##            ${body}
+####            #parse("decorators/body.vm")
+##        </div>
+##    </div>
+
+##    #parse("decorators/foot.vm")
+
+
+</body>
+</html>

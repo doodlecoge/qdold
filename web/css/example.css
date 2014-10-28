@@ -1,0 +1,74 @@
+
+.widget-place {
+    width: 49.99%;
+    overflow: hidden;
+    padding-bottom: 30px;
+}
+
+.widget-placeholder {
+    color: #000;
+    margin: 1em;
+    background-color: #F5F5F5;
+}
+
+.widget {
+    margin: 10px 10px 15px 10px;
+    /*border: #DFDFDF solid 1px;*/
+    /*border: #33b4e4 solid 1px;*/
+    border: #0D5995 solid 1px;
+
+    /*border-radius: 4px;*/
+    /*box-shadow: 0 1px 0 #FFFFFF inset;*/
+
+
+    -webkit-border-radius: 0 0 6px 6px;
+    -moz-border-radius: 0 0 6px 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+    -moz-box-shadow: 0 3px 10px rgba(0,0,0,0.35);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+}
+
+.widget-header {
+    /*color: #000;*/
+    color: #eee;
+    padding: 0.2em;
+    /*background-color: #F1F1F1;*/
+    /*background-color: #33b4e4;*/
+    background-color: #0D5995;
+    background-image: -moz-linear-gradient(center top , #69c, #0D5995);
+}
+
+.widget-editbox {
+    color: #000;
+    margin: 0.2em;
+    padding: 0.2em;
+    /*background-color: yellow;*/
+}
+
+.widget-content {
+    padding: 0.5em;
+}
+
+div#ajax-progress {
+    top: 0.2em;
+    color: #fff;
+    right: 0.2em;
+    display: none;
+    padding: 0.2em;
+    position: fixed;
+    font-weight: bold;
+    background-color: red;
+}
+
+div#callbacks-console {
+    clear: right;
+    color: lime;
+    height: 100px;
+    overflow: auto;
+    padding: 0.5em;
+    margin: 1em 0 0 0;
+    line-height: normal;
+    background-color: #000;
+    border: silver solid 2px;
+}

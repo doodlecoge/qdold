@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+        "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+<struts>
+    <package name="project" extends="default" namespace="/project">
+
+        <action name="index" class="projectAction">
+            <result name="success" type="velocity">/project/index.vm</result>
+        </action>
+
+        <action name="add" class="projectAction" method="add">
+            <!--<result name="success" type="redirect">/home</result>-->
+            <result name="success" type="chain">
+                <param name="actionName">home</param>
+                <param name="namespace">/</param>
+            </result>
+        </action>
+    </package>
+</struts>

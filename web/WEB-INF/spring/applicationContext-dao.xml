@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+    <bean id="baseDao" class="org.springframework.orm.hibernate3.support.HibernateDaoSupport" abstract="true">
+    <property name="sessionFactory" ref="sessionFactory"/>
+</bean>
+
+    <bean id="projectDao" class="com.cisex.qd.dao.ProjectDaoImpl" parent="baseDao" />
+    
+    <bean id="userDao" class="com.cisex.qd.dao.UserDaoImpl" parent="baseDao"/>
+
+    <bean id="widgetDao" class="com.cisex.qd.dao.WidgetDaoImpl" parent="baseDao"/>
+
+    <bean id="dashboardDao" class="com.cisex.qd.dao.DashboardDaoImpl" parent="baseDao"/>
+
+    <bean id="usersDashboardsDao" class="com.cisex.qd.dao.UsersDashboardsDaoImpl" parent="baseDao"/>
+
+    <bean id="adminDao" class="com.cisex.qd.dao.AdminDaoImpl" parent="baseDao"/>
+
+
+    <bean id="theDao" class="com.cisex.qd.dao.Dao" parent="baseDao">
+        <property name="projectDao" ref="projectDao"/>
+        <property name="dashboardDao" ref="dashboardDao"/>
+        <property name="userDao" ref="userDao"/>
+        <property name="widgetDao" ref="widgetDao"/>
+        <property name="usersDashboardsDao" ref="usersDashboardsDao"/>
+        <property name="adminDao" ref="adminDao"/>
+    </bean>
+</beans>

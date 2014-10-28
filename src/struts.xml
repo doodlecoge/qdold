@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+
+<struts>
+
+    <package name="default" extends="struts-default">
+
+
+        <action name="home" class="homeAction">
+            <result name="success" type="velocity">home.vm</result>
+        </action>
+
+        <action name="login" class="com.cisex.qd.web.action.LoginAction">
+            <result name="success" type="velocity">login.vm</result>
+        </action>
+
+        <!--<action name="/" class="com.cisex.qd.web.action.DefIndexAction">-->
+            <!--<result name="success" type="velocity">-->
+                <!--/index.vm-->
+            <!--</result>-->
+        <!--</action>-->
+
+    </package>
+
+
+
+    <include file="struts-project.xml"/>
+    <include file="struts-widget.xml"/>
+
+
+</struts>

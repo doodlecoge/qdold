@@ -1,0 +1,23 @@
+#set($len = $users.size())
+#if($len > 0)
+
+    #set($len_1 = $len - 1)
+    #set($rng = [0..$len_1])
+
+[
+    #foreach($i in $rng)
+        #set($user = $users.get($i))
+
+    {
+    "fullname": "$user.fullname",
+    "username": "$user.username",
+    "id": $user.id
+    }
+
+        #if($i != 0)
+        ,
+        #end
+    #end
+]
+
+#end

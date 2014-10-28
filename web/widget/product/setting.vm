@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <link type="text/css" rel="stylesheet" href="${base}/css/jquery-ui-1.8.22.custom.css" />
+    <link type="text/css" rel="stylesheet" href="${base}/css/common.css" />
+
+    <script type="text/javascript" src="${base}/script/jquery172.js"></script>
+    <script type="text/javascript" src="${base}/script/jquery-ui-1.8.22.custom.min.js"></script>
+    <script type="text/javascript" src="${base}/script/jquery.multi-input.js"></script>
+    <script type="text/javascript" src="${base}/script/common.js"></script>
+    <script type="text/javascript" src="${base}/script/inputs.js"></script>
+
+
+    <style type="text/css">
+        body {
+            font-size: 62.5%;
+            padding: 0;
+            margin: 0;
+        }
+
+        body * {
+            font-family: "Courier New", Arial;
+        }
+
+        form * {
+            font-size: 1em;
+        }
+
+        form {
+            font-size: 1.2em;
+        }
+
+        form input {
+            padding: 0.2em;
+            outline: none;
+        }
+
+        form ul {
+            padding: 0 5px;
+            margin: 0;
+        }
+        form ul li {
+            list-style: none;
+            padding-bottom: 20px;
+        }
+
+        form ul li span {
+            color: #0D5995;
+            font-weight: bold;
+        }
+
+        .ui-autocomplete {
+            max-height: 100px;
+            overflow-y: auto;
+        }
+    </style>
+
+    <script type="text/javascript">
+        function split(val) {
+            return val.split(/,\s*/);
+        }
+
+        function last(val) {
+            return split(val).pop();
+        }
+
+        function getSettings() {
+            var config = {};
+
+            config.name = $.trim($("#name").val());
+            var pcs = $("#project_codes").ProjectCodesInputBox("getProjectCodes");
+
+            config.project_codes = pcs;
+
+
+//            config.project_codes = [];
+//
+//            var arr = split($("#multi_ipt").val());
+//
+//            $.each(arr, function(i, val) {
+//                if(!val) return;
+//
+//                val = $.trim(val);
+//
+//                if(val)
+//                    config.project_codes.push(val);
+//            });
+
+            return config;
+        }
+
+
+        $(function() {
+            $("form input:text").addClass("text")
+                    .addClass("ui-corner-all")
+                    .addClass("ui-widget-content");
+
+
+
+
+            var pcs = $project_codes;
+
+//            $("#multi_ipt").autocomplete({
+//               minLength: 2,
+//                source: function(request, response) {
+//                    var re = new RegExp(request.term);
+//                    var a = $.grep(pcs, function(v, i) { return re.test(v); });
+//                    response(a);
+////                    response($.ui.autocomplete.filter(pcs, last(request.term)))
+//                },
+//                focus: function() {
+//                    return false;
+//                },
+//                select: function(event, ui) {
+//                    var terms = split(this.value);
+//
+//                    terms.pop();
+//
+//                    var val = ui.item.value;
+//
+//                    if($.inArray(val, terms) != -1)
+//                        return false;
+//
+//                    terms.push(val);
+//
+//                    terms.push("");
+//
+//                    this.value = terms.join(",");
+//
+//                    return false;
+//                }
+//            });
+
+            var pcstr = "$config.getProjectCodes()";
+
+            var selPcs = null;
+            if($.trim(pcstr) != "") selPcs = pcstr.split(",");
+
+            $("#project_codes").ProjectCodesInputBox("setSource", pcs);
+            $("#project_codes").ProjectCodesInputBox("init", selPcs);
+
+            $("#project_codes").ProjectCodesInputBox("setAddItemPostHandler", function() {
+                resizeIfrmSize("setting");
+            });
+
+            resizeIfrmSize("setting");
+        });
+    </script>
+
+
+</head>
+
+<body>
+<form onsubmit="return false;">
+    <ul>
+        <li>
+            <span>Widget Name:</span><br />
+            <input id="name" name="name" value='$config.get("name")' style="width: 90%;" />
+        </li>
+
+
+        <li>
+            <span>Project Codes:</span><br />
+            <div id="project_codes" style="padding: 5px;">
+
+            </div>
+##            <input id="multi_ipt" name="multi_ipt" style="width: 90%" value="$config.getProjectCodes()"/>
+        </li>
+    </ul>
+
+    <div style="height: 100px"></div>
+    <span id="global_width" style="visibility: hidden;">WW</span>
+</form>
+</body>
+</html>

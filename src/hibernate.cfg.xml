@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
+
+        <property name="current_session_context_class">thread</property>
+        <property name="connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+        <property name="c3p0.min_size">1</property>
+        <property name="c3p0.max_size">20</property>
+        <property name="c3p0.timeout">3600</property>
+        <property name="c3p0.idle_test_period">100</property>
+        <property name="hibernate.generate_statistics">false</property>
+
+        <!-- property name="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</property>
+      <property name="cache.use_query_cache">true</property>
+      <property name="cache.use_second_level_cache">true</property -->
+
+        <property name="hibernate.cache.use_query_cache">false</property>
+        <property name="hibernate.cache.use_second_level_cache">false</property>
+        <property name="hibernate.max_fetch_size">3</property>
+        <!--<property name="show_sql">true</property>-->
+        <!--<property name="format_sql">true</property>-->
+
+        <!-- property name="hibernate.hbm2ddl.auto">create</property -->
+
+        <mapping resource="mappings/qd_user.hbm.xml"/>
+        <mapping resource="mappings/qd_dashboard.hbm.xml"/>
+
+        <mapping resource="mappings/qd.hbm.xml"/>
+        <mapping resource="mappings/qd_widget.hbm.xml"/>
+
+    </session-factory>
+</hibernate-configuration>

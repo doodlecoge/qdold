@@ -1,0 +1,112 @@
+.transparent {
+    zoom: 1;
+    filter: alpha(opacity=50);
+    opacity: 0.5;
+}
+
+.transparent2 {
+    /* Required for IE 5, 6, 7 */
+    /* ...or something to trigger hasLayout, like zoom: 1; */
+    width: 100%;
+
+    /* Theoretically for IE 8 & 9 (more valid) */
+    /* ...but not required as filter works too */
+    /* should come BEFORE filter */
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+
+    /* This works in IE 8 & 9 too */
+    /* ... but also 5, 6, 7 */
+    filter: alpha(opacity=50);
+
+    /* Older than Firefox 0.9 */
+    -moz-opacity:0.5;
+
+    /* Safari 1.x (pre WebKit!) */
+    -khtml-opacity: 0.5;
+
+    /* Modern!
+     /* Firefox 0.9+, Safari 2?, Chrome any?
+     /* Opera 9+, IE 9+ */
+    opacity: 0.5;
+}
+
+.ellips {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+
+.new-link-item {
+    line-height: normal;
+    padding: 2px 5px;
+    border: 1px solid #888;
+    margin-right: 10px;
+    margin-bottom: 5px;
+
+    text-decoration: none;
+    background: #FBEA97;
+    color: #235A87;
+
+    cursor: default;
+
+
+    display:-moz-inline-stack;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+
+
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+
+
+    -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 255, 0.5);
+    -moz-box-shadow: 2px 2px 5px rgba(0, 0, 255, 0.5);
+    box-shadow: 2px 2px 5px rgba(0, 0, 255, 0.5);
+}
+
+.new-link-item span {
+    margin-left: 5px;
+}
+
+.new-link-item span:hover {
+    color: #f00;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+
+.new-link-item2 {
+    line-height: normal;
+    padding: 2px 5px;
+    border: 1px solid #888;
+
+    text-decoration: none;
+    color: #235A87;
+
+    cursor: default;
+
+
+    display:-moz-inline-stack;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+
+
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
+
+.new-link-item2 span {
+    margin-left: 5px;
+}
+
+.new-link-item2 span:hover {
+    color: #f00;
+    font-weight: bold;
+    cursor: pointer;
+}

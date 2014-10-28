@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <link type="text/css" rel="stylesheet" href="${base}/css/tab.css"/>
+    <script type="text/javascript" src="${base}/script/jquery172.js"></script>
+    <script type="text/javascript" src="${base}/script/common.js"></script>
+
+    <style type="text/css">
+        .pc-grp {
+            font-weight: bold;
+            font-size: 12px;
+        }
+    </style>
+    <script type="text/javascript">
+
+        $(function () {
+            resizeIfrmSize("view");
+
+
+            $(".tbl-rst").click(function(e) {
+
+                var el = $(e.target);
+                var tr = el.parents('tr[pkg]');
+
+                if(tr.length == 0) return;
+
+                var pkg = tr.attr('pkg');
+
+                $(this).find('tr[pid]').each(function(i, sub) {
+                    if($(sub).attr('pid') == pkg)
+                    $(sub).toggle();
+                });
+
+
+                var html = tr.find("div.pc-grp").html();
+
+                var m = html.match(/^\(([+-])\)(.+)$/)
+                if(m) {
+                    if(m[1] == "+")
+                        html = "(-)" + m[2];
+                    else
+                        html = "(+)" + m[2];
+
+                    tr.find("div.pc-grp").html(html);
+                }
+
+                resizeIfrmSize('view');
+            });
+        });
+
+
+    </script>
+</head>
+<body style="padding: 0; margin: 0;">
+<div>
+    #if(!$data)
+        <div style="height: 100px; line-height: 100px; text-align: center;">
+            Please Edit Your Project View.
+        </div>
+    #else
+        <table width="100%" class="tbl-rst" cellpadding="5" cellspacing="1">
+            <thead>
+            <tr>
+                <td class="hdr-normal">Project</td>
+                <td class="hdr-normal" style="width:60px">Total Case</td>
+                <td class="hdr-fail" style="width:60px">Failed Case</td>
+                <td class="hdr-normal" style="width:60px">Pass Rate</td>
+                <td class="hdr-normal" style="width:88px">Date Created</td>
+            </tr>
+            </thead>
+
+            #set($pkgs = $setting.get("project_codes"))
+
+            #foreach($pc in $pkgs.get('--'))
+
+                <tr>
+                    <td class="normal ellips" title="$data.getStat($pc).projectCode">
+                        <a href="$rptBaseUrl/tasche/reports/viewGenericReport.action?projectCode=$data.getStat($pc).projectCode&buildNumber=$data.getStat($pc).buildNumber"
+                           target="_blank"
+                           style="text-decoration: none;">
+                            $data.getStat($pc).projectCode
+                        </a>
+                    </td>
+                    <td class="normal">$data.getStat($pc).totalCase</td>
+                    <td class="fail">$data.getStat($pc).failedCase</td>
+                    <td class="normal">
+                        $data.getStat($pc).passrate%
+                    </td>
+                    <td class="fail">$data.getStat($pc).dateCreated</td>
+                </tr>
+
+            #end
+
+            #foreach($kk in $pkgs.keySet())
+                #if($kk != '--')
+
+                    #set($ppcc = $pkgs.get($kk))
+                    #set($ttff = $data.getTotal($ppcc))
+
+                    <tr pkg="$kk" style="cursor: pointer;">
+                        <td class="normal ellips" title="click to toggle expand and collapse">
+                            <div class="pc-grp" style="font-family: Courier New;">(+) $kk</div>
+                        </td>
+                        <td class="normal">$ttff.totalCase</td>
+                        <td class="fail">$ttff.failedCase</td>
+                        <td class="normal">$ttff.passrate%</td>
+                        <td class="normal"></td>
+                    </tr>
+
+                    #foreach($pc in $pkgs.get($kk))
+
+                        <tr pid="$kk" style="display: none;" class="sub">
+                            <td class="normal ellips" title="$data.getStat($pc).projectCode">
+                                <a href="$rptBaseUrl/tasche/reports/viewGenericReport.action?projectCode=$data.getStat($pc).projectCode&buildNumber=$data.getStat($pc).buildNumber"
+                                   target="_blank"
+                                   style="text-decoration: none;">
+                                    $data.getStat($pc).projectCode
+                                </a>
+                            </td>
+                            <td class="normal">$data.getStat($pc).totalCase</td>
+                            <td class="fail">$data.getStat($pc).failedCase</td>
+                            <td class="normal">
+                                $data.getStat($pc).passrate%
+                            </td>
+                            <td class="fail">$data.getStat($pc).dateCreated</td>
+                        </tr>
+
+                    #end
+                #end
+            #end
+
+
+            <tfoot>
+            <tr>
+                <td>Total</td>
+                <td>$data.getTotal().totalCase</td>
+                <td>$data.getTotal().failedCase</td>
+                <td>
+                    $data.getTotal().passrate%
+                </td>
+                <td></td>
+            </tr>
+            </tfoot>
+        </table>
+    #end
+</div>
+</body>
+</html>

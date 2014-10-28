@@ -1,0 +1,337 @@
+<script type="text/javascript">
+    function addDashboard(name, columns) {
+        $.ajaxSetup({async:false});
+        $.post("add_db", {'name': name, 'columns': columns},
+                function(data) {
+                    var response = eval("(" + data + ")");
+                    if (response["statusCode"] == 0) {
+                        var id = response["ext"]["dbid"];
+
+                        var nurl = window.location.href.replace(/id=([0-9]+)$/, "id=" + id);
+                        window.location.href = nurl;
+
+                    } else if(response["statusCode"] == -1) {
+
+                    }
+                });
+    }
+
+    $(function() {
+        $("#rad_col_cnt_sel").buttonset();
+
+        $("input:radio:first", "#rad_col_cnt_sel").attr('checked', 'checked');
+        $("#rad_col_cnt_sel").buttonset('refresh');
+
+        $("#add_db_dialog").dialog({
+            title: "Add New Dashboard",
+            autoOpen : false,
+            width : 400,
+            resizable: false,
+            modal : true,
+            buttons : {
+                "Save" : function() {
+                    var name = $.trim($("#db_name", "#add_db_dialog").val());
+                    var cols = $("input:checked[name=rad_col_cnt]", "#rad_col_cnt_sel").val();
+                    addDashboard(name, cols);
+                },
+                Cancel: function() {
+                    $( this ).dialog( "close" );
+                }
+            },
+            close: function() {
+
+            }
+        });
+
+        $("#add_db").click(function() {
+            $("#add_db_dialog").dialog('open');
+        });
+    });
+</script>
+
+<style type="text/css">
+    #add_db_dialog ul li {
+        list-style: none;
+    }
+</style>
+
+<div id="add_db_dialog">
+    <ul>
+        <li>
+            <div>Dashboard Name:</div>
+            <div><input type="text" id="db_name" style="width: 250px;" /></div>
+        </li>
+
+        <li>
+            <div>Columns:</div>
+            <div id="rad_col_cnt_sel">
+                <input type="radio" value="2" name="rad_col_cnt" id="rad_col_cnt_0" />
+                <label for="rad_col_cnt_0">2 Columns</label>
+
+                <input type="radio" value="3" name="rad_col_cnt" id="rad_col_cnt_1" />
+                <label for="rad_col_cnt_1">3 Columns</label>
+            </div>
+        </li>
+    </ul>
+</div>
+
+##<div id="adminmenuback"></div>
+##<div id="adminmenuwrap">
+##    <div id="adminmenushadow"></div>
+
+##<ul id="adminmenu">
+##
+##    <li id="menu-dashboard" class="wp-has-submenu wp-has-current-submenu wp-menu-open menu-top menu-top-first menu-icon-dashboard">
+##        <a tabindex="1"
+##           class="wp-first-item wp-has-submenu wp-has-current-submenu wp-menu-open menu-top menu-top-first menu-icon-dashboard menu-top-last"
+##           href="index">Dashboard</a>
+##
+##        <div class="wp-menu-image">
+##            <a href="index"><br></a>
+##        </div>
+##
+##        <div class="wp-menu-arrow">
+##            <div></div>
+##        </div>
+##        <div class="wp-menu-toggle">
+##            <br>
+##        </div>
+##
+##
+##        <div class="wp-submenu">
+##            <div class="wp-submenu-wrap">
+##                <div class="wp-submenu-head">Dashboard</div>
+##                <ul>
+##                    #if($myHomeDashboard)
+##                        <li>
+##                            <a href="index">
+##                                        <span style="background: url(../css/images/ui-icons_222222_256x240.png) 0 -112px">
+##                                        </span>
+##                                $myHomeDashboard.name
+##                            </a>
+##                        </li>
+##                    #end
+##
+##                    #foreach($db in $myDashboards)
+##                        <li>
+##                            <a href="index?id=$db.id">
+##                                    <span style="background: url(../css/images/ui-icons_222222_256x240.png) 32 -112px">
+##                                    </span>
+##                                $db.name
+##                            </a>
+##                        </li>
+##                    #end
+##
+##
+##                </ul>
+##            </div>
+##        </div>
+##
+##    </li>
+##
+##
+##    <li class="wp-menu-separator">
+##        <div class="separator"></div>
+##    </li>
+##
+##    <li id="menu-search"
+##        class="wp-has-submenu open-if-no-js menu-top menu-icon-post menu-top-first">
+##        <div class="wp-menu-image">
+##            <a href="javascript:void(0)"><br></a>
+##        </div>
+##
+##        <div class="wp-menu-arrow">
+##            <div></div>
+##        </div>
+##
+##        <div class="wp-menu-toggle">
+##            <br>
+##        </div>
+##
+####        <a tabindex="1" class="wp-has-submenu open-if-no-js menu-top menu-icon-post menu-top-first"
+####           href="javascript:void(0)">Search Report</a>
+##
+##        <a tabindex="1"
+##           href="javascript:void(0)">Search Report</a>
+##
+##    </li>
+##
+##    <li class="wp-menu-separator">
+##        <div class="separator"></div>
+##    </li>
+##
+##
+##
+##    #if($admin)
+##        <li id="menu-posts" class="wp-has-submenu open-if-no-js menu-top menu-icon-post menu-top-first">
+##            <div class="wp-menu-image">
+##                <a href="javascript:void(0)"><br></a>
+##            </div>
+##
+##
+##
+##            <div class="wp-menu-arrow">
+##                <div></div>
+##            </div>
+##
+##            <div class="wp-menu-toggle">
+##                <br>
+##            </div>
+##
+##            <a tabindex="1" class="wp-has-submenu open-if-no-js menu-top menu-icon-post menu-top-first"
+##               href="dashboards">Dashboards</a>
+##
+##        </li>
+##    #end
+##
+##</ul>
+
+
+
+
+
+
+<div id="menu-wrap">
+    <ul id="menu">
+        <li class="has-sub-menu current">
+            <div class="menu-item">
+                <div class="menu-txt">
+                    <a href="index">
+                        <span style="background: url(../css/images/ui-icons_222222_256x240.png) -144px -96px">
+                        </span>
+                        Dashboard
+                    </a>
+                </div>
+                <div class="menu-arrow">
+                    <div></div>
+                </div>
+                <div class="menu-toggle"></div>
+            </div>
+
+            <div class="sub-menu">
+                <ul>
+                    #if($logged)
+                        #if($myHomeDashboard)
+                            <li>
+                                <a href="index">
+                                <span style="background: url(../css/images/ui-icons_222222_256x240.png) 0 -112px">
+                                </span>
+                                    $myHomeDashboard.name
+                                </a>
+                            </li>
+                        #end
+
+                        #foreach($db in $myDashboards)
+                            <li>
+                                <a href="index?id=$db.id">
+                                    <span style="background: url(../css/images/ui-icons_222222_256x240.png) -208px -112px">
+                                    </span>
+                                    $db.name
+                                </a>
+                            </li>
+                        #end
+
+                        #foreach($db in $publicDashboards)
+                            <li>
+                                <a href="index?id=$db.id">
+                                    <span style="background: url(../css/images/ui-icons_222222_256x240.png) -224px -112px">
+                                    </span>
+                                    $db.name
+                                </a>
+                            </li>
+                        #end
+                    #else
+                        #foreach($db in $publicDashboards)
+                            <li>
+                                <a href="index?id=$db.id">
+                                    <span style="background: url(../css/images/ui-icons_222222_256x240.png) -224px -112px">
+                                    </span>
+                                    $db.name
+                                </a>
+                            </li>
+                        #end
+                    #end
+                </ul>
+            </div>
+        </li>
+
+
+        <li class="sep">
+            <div></div>
+        </li>
+
+
+        <li class="">
+            <div class="menu-item">
+                <div class="menu-txt">
+                    <a target="_blank" href="http://ta.webex.com.cn/tasche/reports/searchReports.action">
+                        <span style="background: url(../css/images/ui-icons_222222_256x240.png) -160px   -112px">
+                        </span>
+                        Search Report
+                    </a>
+                </div>
+                <div class="menu-arrow">
+                    <div></div>
+                </div>
+                <div class="menu-toggle"></div>
+            </div>
+        </li>
+
+
+        <li class="sep">
+            <div></div>
+        </li>
+
+
+        #if($logged and $admin)
+            <li>
+                <div class="menu-item has-sub-menu">
+                    <div class="menu-txt">
+                        <a href="dashboards">
+                        <span style="background: url(../css/images/ui-icons_222222_256x240.png) -176px -112px">
+                        </span>
+                            Dashboards
+                        </a>
+                    </div>
+                    <div class="menu-arrow">
+                        <div></div>
+                    </div>
+                    <div class="menu-toggle">c</div>
+                </div>
+            </li>
+
+            <li class="sep">
+                <div></div>
+            </li>
+
+
+            <li>
+                <div class="menu-item">
+                    <div class="menu-txt">
+                        <a id="add_db" href="javascript:void(0)">
+                        <span style="background: url(../css/images/ui-icons_222222_256x240.png) -32px -128px">
+                        </span>
+                            Add Dashboard
+                        </a>
+                    </div>
+                    <div class="menu-arrow">
+                        <div></div>
+                    </div>
+                    <div class="menu-toggle">c</div>
+                </div>
+            </li>
+
+            <li class="sep">
+                <div></div>
+            </li>
+        #end
+    </ul>
+</div>
+
+
+
+
+
+
+
+##</div>

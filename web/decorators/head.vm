@@ -1,0 +1,37 @@
+<div id="wphead">
+    <div class="logo">
+        <div class="user-info">
+            #if($logged)
+                #set($url = "http://wwwin.cisex.com/dir/photo/tn/" + $username + ".jpg")
+
+                <div class="metadata">
+                    <a href="http://wwwin-tools.cisex.com/dir/details/$username"
+                       target="_blank">
+                        $fullname ($username)
+                    </a>
+                    <br />
+                    <a href="${base}/logout">Logout</a>
+                </div>
+
+                <div class="img"
+                     style="background: url($url) 0 0 no-repeat;">
+                </div>
+            #else
+
+                <div class="metadata">
+                    <a href="${base}//login">
+                        You are not logged in
+                        <br />
+                        Click to login
+                    </a>
+                </div>
+
+                <div class="img"
+                     style="background: url(${base}//images/notlogged.png) 0 0 no-repeat;">
+                </div>
+
+            #end
+
+        </div>
+    </div>
+</div>
